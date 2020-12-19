@@ -19,6 +19,19 @@ class M_barang extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_data($id_barang)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_barang');
+        $this->db->join(
+            'tbl_kategori',
+            'tbl_kategori.id_kategori = tbl_barang.id_kategori',
+            'left'
+        );
+        $this->db->where('id_barang', $id_barang);
+        return $this->db->get()->row();
+    }
+
     public function add($data)
     {
 
