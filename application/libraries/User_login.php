@@ -32,7 +32,7 @@ class User_login
 
     public function proteksi_halaman()
     {
-        if ($this->ci->session->userdata('username' == '')) {
+        if ($this->ci->session->userdata('username') == '') {
             $this->ci->session->set_flashdata('error', 'Anda Belum Login !!!');
             redirect('auth/login_user');
         }
