@@ -23,7 +23,7 @@ class M_gambarbarang extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tbl_gambar');
-        $this->db->where('id_barang', $id_gambar);
+        $this->db->where('id_gambar', $id_gambar);
         return $this->db->get()->row();
     }
 
