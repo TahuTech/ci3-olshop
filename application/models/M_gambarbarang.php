@@ -29,7 +29,6 @@ class M_gambarbarang extends CI_Model
 
     public function get_gambar($id_barang)
     {
-
         $this->db->select('*');
         $this->db->from('tbl_gambar');
         $this->db->where('id_barang', $id_barang);
