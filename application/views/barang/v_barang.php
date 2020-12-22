@@ -38,7 +38,10 @@
                     ?>
                         <tr>
                             <td class="text text-center"><?= $no++; ?></td>
-                            <td class="text text-center"><?= $value->nama_barang ?></td>
+                            <td>
+                                <?= $value->nama_barang ?> <br>
+                                Berat : <?= $value->berat ?> Gr
+                            </td>
                             <td class="text text-center"><?= $value->nama_kategori ?></td>
                             <td class="text text-center">Rp. <?= number_format($value->harga, 0) ?></td>
                             <td class="text text-center"><img src="<?= base_url('assets/gambar/' . $value->gambar) ?>" width="150px"></td>
