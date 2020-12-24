@@ -6,6 +6,13 @@ class Rajaongkir extends CI_Controller
 {
     private $api_key = '5cb13c3d358d1272f9e192150dbf8b36';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('m_admin');
+    }
+
+
     public function provinsi()
     {
         $curl = curl_init();
@@ -76,7 +83,7 @@ class Rajaongkir extends CI_Controller
             $data_kota = $array_response['rajaongkir']['results'];
             echo "<option value=''>-- Pilih Kota --</option>";
             foreach ($data_kota as $key => $value) {
-                echo "<option value='" . $value['city_id'] . "'>" . $value['city_name'] . "</option>";
+                echo "<option value='" . $value['city_id'] . "' id_kota='" . $value['city_id'] . "'>" . $value['city_name'] . "</option>";
             }
         }
     }
@@ -90,6 +97,11 @@ class Rajaongkir extends CI_Controller
     }
     public function paket()
     {
+        $id_kota_asal = $this->m_admin->data_setting()->lokasi;
+        $expedisi = $this->input->post('expedisi');
+        $id_kota = $this->input->post('id_kota');
+        $berat = $this->input->post('berat');
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -102,7 +114,7 @@ class Rajaongkir extends CI_Controller
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "origin=501&destination=114&weight=1700&courier=tiki",
+            CURLOPT_POSTFIELDS => "origin=" . $id_kota_asal . "&destination=" . $id_kota . "&weight=" . $berat . "&courier=" . $expedisi,
             CURLOPT_HTTPHEADER => array(
                 "content-type: application/x-www-form-urlencoded",
                 "key: $this->api_key"
@@ -125,7 +137,7 @@ class Rajaongkir extends CI_Controller
             $data_paket = $array_response['rajaongkir']['results'][0]['costs'];
             echo "<option value=''>-- Pilih Paket --</option> ";
             foreach ($data_paket as $key => $value) {
-                echo "<option value='" . $value['service'] . "'>";
+                echo "<option value='" . $value['service'] . "'  ongkir='" .  $value['cost'][0]['value'] . "'>";
                 echo $value['service'] . " | Rp. " . $value['cost'][0]['value']  . " | " .  $value['cost'][0]['etd'] . " Hari";
                 echo "</option>";
             }

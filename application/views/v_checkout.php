@@ -111,7 +111,16 @@
                         <select name="paket" class="form-control"></select>
                     </div>
                 </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>Alamat</label>
+                        <select name="alamat" class="form-control"></select>
+                    </div>
+                </div>
+
             </div>
+
         </div>
         <!-- /.col -->
         <div class="col-4">
@@ -119,21 +128,21 @@
                 <table class="table">
                     <tr>
                         <th style="width:50%">Subtotal:</th>
-                        <td>
+                        <th>
                             Rp. <?php echo number_format($this->cart->total(), 0); ?>
-                        </td>
+                        </th>
                     </tr>
                     <tr>
                         <th>Berat:</th>
-                        <td>Total Berat : <?= $tot_berat ?> Gr </td>
+                        <th><?= $tot_berat ?> Gr </th>
                     </tr>
                     <tr>
                         <th>Ongkir:</th>
-                        <td><label>0</label></td>
+                        <th><label id="ongkir"></label></th>
                     </tr>
                     <tr>
                         <th>Total Bayar:</th>
-                        <td><label>0</label></td>
+                        <th><label id="total_bayar"></label></th>
                     </tr>
                 </table>
             </div>
@@ -194,15 +203,42 @@
             });
         });
 
-        //Data Paket
+        //Mendapatkan data Paket
         $("select[name=expedisi]").on("change", function() {
+            //mendapatkan expedisi terpilih
+            var expedisi_terpilih = $("select[name=expedisi]").val()
+            //mendapatkan id kota tujuan terpilih
+            var id_kota_tujuan_terpilih = $("option:selected", "select[name=kota]").attr('id_kota');
+            //mengambil berat barang
+            var total_berat = <?= $tot_berat ?>;
             $.ajax({
                 type: "POST",
                 url: "<?= base_url('rajaongkir/paket') ?>",
+                data: 'expedisi=' + expedisi_terpilih + '&id_kota=' + id_kota_tujuan_terpilih + '&berat=' + total_berat,
                 success: function(hasil_paket) {
                     $("select[name=paket]").html(hasil_paket);
                 }
             });
         });
+
+        //masukkan ke ongkir
+        $("select[name=paket]").on("change", function() {
+            //Menamilkan Ongkir
+            var dataongkir = $("option:selected", this).attr('ongkir');
+            var reverse = dataongkir.toString().split('').reverse().join(''),
+                ribuan_ongkir = reverse.match(/\d{1,3}/g);
+            ribuan_ongkir = ribuan_ongkir.join(',').split('').reverse().join('');
+            $("#ongkir").html("Rp. " + ribuan_ongkir);
+            //Hitung total bayar
+            var data_total_bayar = parseInt(dataongkir) + parseInt(<?= $this->cart->total() ?>);
+            var reverse2 = data_total_bayar.toString().split('').reverse().join(''),
+                ribuan_total_bayar = reverse2.match(/\d{1,3}/g);
+            ribuan_total_bayar = ribuan_total_bayar.join(',').split('').reverse().join('');
+            $("#total_bayar").html("Rp. " + ribuan_total_bayar);
+        });
+
+
+
+
     });
 </script>
