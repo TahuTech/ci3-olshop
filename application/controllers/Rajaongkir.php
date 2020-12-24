@@ -83,10 +83,53 @@ class Rajaongkir extends CI_Controller
 
     public function expedisi()
     {
-        echo '<option value="">-- Pilih Exspedisi -- </option>';
+        echo '<option value="">-- Pilih Expedisi -- </option>';
         echo '<option value="jne"> JNE </option>';
         echo '<option value="tiki"> TIKI </option>';
         echo '<option value="pos"> POS INDONESIA </option>';
+    }
+    public function paket()
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "origin=501&destination=114&weight=1700&courier=tiki",
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/x-www-form-urlencoded",
+                "key: $this->api_key"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            // echo $response;
+            $array_response = json_decode($response, true);
+            // echo '<pre>';
+            // print_r($array_response['rajaongkir']['results'][0]['costs']);
+            // echo '</pre>';
+            $data_paket = $array_response['rajaongkir']['results'][0]['costs'];
+            echo "<option value=''>-- Pilih Paket --</option> ";
+            foreach ($data_paket as $key => $value) {
+                echo "<option value='" . $value['service'] . "'>";
+                echo $value['service'] . " | Rp. " . $value['cost'][0]['value']  . " | " .  $value['cost'][0]['etd'] . " Hari";
+                echo "</option>";
+            }
+        }
     }
 }
 /* End of file Rajaongkir.php */
