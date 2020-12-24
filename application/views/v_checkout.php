@@ -127,7 +127,7 @@
             <div class="table-responsive">
                 <table class="table">
                     <tr>
-                        <th style="width:50%">Subtotal:</th>
+                        <th style="width:50%">Grand Total:</th>
                         <th>
                             Rp. <?php echo number_format($this->cart->total(), 0); ?>
                         </th>
