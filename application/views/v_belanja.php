@@ -38,13 +38,10 @@
                                 ));
                                 ?>
                             </td>
-                            <td>
-                                <?php echo $items['name']; ?>
-                            </td>
+                            <td><?php echo $items['name']; ?></td>
                             <td style="text-align:right">Rp. <?php echo number_format($items['price'], 0); ?></td>
                             <td style="text-align:right">Rp. <?php echo number_format($items['subtotal'], 0); ?></td>
-                            <td class="text-center">
-                                <?= $berat ?> Gr</td>
+                            <td class="text-center"><?= $berat ?> Gr</td>
                             <td class=" text-center">
                                 <a href="<?= base_url('belanja/delete/' . $items['rowid']) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                             </td>
@@ -69,12 +66,9 @@
 
                 </table>
 
-
-
-
                 <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-save"></i> Update Cart</button>
                 <a href="<?= base_url('belanja/clear') ?>" class="btn btn-danger btn-flat"><i class="fa fa-recycle"></i> Clear Cart</a>
-                <a href="#" class="btn btn-success btn-flat"><i class="fa fa-check-square"></i> Check Out</a>
+                <a href="<?= base_url('belanja/checkout') ?>" class="btn btn-success btn-flat"><i class="fa fa-check-square"></i> Check Out</a>
 
                 <?php form_close() ?>
                 <div class="row">
@@ -86,3 +80,4 @@
         </div>
     </div>
 </div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
