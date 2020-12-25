@@ -104,6 +104,7 @@ class Belanja extends CI_Controller
         } else {
             //Simpan ke tbl_transaksi
             $data = array(
+                'id_pelanggan' => $this->session->userdata('id_pelanggan'),
                 'no_order' => $this->input->post('no_order'),
                 'tanggal_order' => date('Y-m-d'),
                 'nama_penerima' => $this->input->post('nama_penerima'),
