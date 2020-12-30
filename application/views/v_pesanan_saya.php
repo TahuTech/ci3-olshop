@@ -98,11 +98,68 @@
                             <?php } ?>
                         </table>
                     </div>
+
                     <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-                        Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                        <!-- data pesanan di kirim -->
+                        <table class="table">
+                            <tr>
+                                <th>No Order</th>
+                                <th>Tanggal Order</th>
+                                <th>Expedisi</th>
+                                <th>Total Bayar</th>
+                                <th>No Resi</th>
+                            </tr>
+                            <?php foreach ($di_kirim as $key => $value) {  ?>
+                                <tr>
+                                    <td><?= $value->no_order ?></td>
+                                    <td><?= $value->tanggal_order ?></td>
+                                    <td>
+                                        <b><?= $value->expedisi ?></b><br>
+                                        Paket: <?= $value->paket ?><br>
+                                        Ongkir: Rp. <?= number_format($value->ongkir, 0) ?>
+                                    </td>
+                                    <td>
+                                        <b>Rp. <?= number_format($value->total_bayar, 0) ?></b><br>
+                                        <span class="badge badge-success">Dikirim</span><br>
+                                    </td>
+                                    <td>
+                                        <h5><?= $value->no_resi ?></h5><br>
+                                        <button data-toggle="modal" data-target="#diterima<?= $value->id_transaksi ?>" class="btn btn-xs btn-flat btn-primary">Diterima</button>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </table>
                     </div>
+
                     <div class="tab-pane fade" id="custom-tabs-four-settings" role="tabpanel" aria-labelledby="custom-tabs-four-settings-tab">
-                        Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
+                        <!-- data pesanan di terima / selesai -->
+                        <table class="table">
+                            <tr>
+                                <th>No Order</th>
+                                <th>Tanggal Order</th>
+                                <th>Expedisi</th>
+                                <th>Total Bayar</th>
+                                <th>No Resi</th>
+                            </tr>
+                            <?php foreach ($selesai as $key => $value) {  ?>
+                                <tr>
+                                    <td><?= $value->no_order ?></td>
+                                    <td><?= $value->tanggal_order ?></td>
+                                    <td>
+                                        <b><?= $value->expedisi ?></b><br>
+                                        Paket: <?= $value->paket ?><br>
+                                        Ongkir: Rp. <?= number_format($value->ongkir, 0) ?>
+                                    </td>
+                                    <td>
+                                        <b>Rp. <?= number_format($value->total_bayar, 0) ?></b><br>
+                                        <span class="badge badge-success">Selesai</span><br>
+                                    </td>
+                                    <td>
+                                        <h5><?= $value->no_resi ?></h5><br>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -110,3 +167,30 @@
         </div>
     </div>
 </div>
+
+<?php foreach ($di_kirim as $key => $value) { ?>
+
+    <!-- Modal cek Bukti Pembayaran -->
+    <div class="modal fade" id="diterima<?= $value->id_transaksi ?>">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Pesanan Diterima </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda Yakin Pesanan Sudah Diterima ???
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+                    <a href="<?= base_url('pesanan_saya/diterima/' . $value->id_transaksi) ?>" type="button" class="btn btn-primary">Ya</a>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+<?php } ?>
